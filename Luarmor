@@ -1,0 +1,55 @@
+-- Lynd Deobfuscator & Dumper
+-- https://discord.gg/SRvRc2XF6s
+
+-- ============================================
+-- HOW TO USE THIS DUMPED SCRIPT
+-- ============================================
+--
+-- 1. Copy this ENTIRE script
+-- 2. Paste it into your Roblox executor
+-- 3. Execute it in Roblox
+-- 4. The script will authenticate with LuArmor servers
+-- 5. Once authenticated, the DECRYPTED script will be printed
+-- 6. Copy the decrypted script from the console output
+--
+-- IMPORTANT NOTES:
+-- - You MUST have valid LuArmor access/whitelist
+-- - This must run in Roblox, not standalone Lua
+-- - Check your executor's console for the output
+-- - The decrypted script will be between the markers:
+--   "=== BEGIN DECRYPTED SCRIPT ==="
+--   "=== END DECRYPTED SCRIPT ==="
+-- ============================================
+
+local _captured, _count = {}, 0
+local _orig_loadstring, _orig_load = loadstring, load
+
+local function _dump(src, name)
+    _count = _count + 1
+    name = name or ('script_' .. _count)
+    print('[CAPTURED] ' .. name .. ' | ' .. #src .. ' bytes')
+    print('=== BEGIN DECRYPTED SCRIPT ' .. _count .. ' ===')
+    print(src)
+    print('=== END DECRYPTED SCRIPT ' .. _count .. ' ===')
+    table.insert(_captured, { name = name, source = src })
+    return src
+end
+
+loadstring = function(src, name)
+    if type(src) == 'string' and #src > 100 then _dump(src, name) end
+    return _orig_loadstring(src, name)
+end
+load = function(src, name)
+    if type(src) == 'string' and #src > 100 then _dump(src, name) end
+    return _orig_load(src, name)
+end
+
+print('[LYND] LuArmor dumper initialized — executing protected script...')
+
+-- ===== ORIGINAL LUARMOR SCRIPT BELOW =====
+-- Do not save this file
+-- Always use the loadstring 
+  _bsdata0={1794415318,7057464,17455680,490314177,"\4\233\255\228\28\152\133\157\151\78\77\230\228\180\7\36\34\163\193\39\176\107\233\166\16\114",27838683,1975686562,"\14\230\49\215\99\98\12\155\47\51\221\237\250\199\86\35\110\133\164\90\187\56\29\126\24","f7f9fdc11a1fe0f3fe7bdd87dbbf851e2bab40ce1be7d2289a697d6ee493aaf8131dc40a72be40d03791f4934ee0c19e43feb8bf3afec38b59ccec18b3cb095a0ffb0ef04faa02bad627b6046ecbd6665459cbe8273b4e9bf57bcbe0c54f57ac83f2b1286c68fd80d831fd7cf564ad35c62051cf80b1b5f088b43a53191ff3c7a120ecf5c1804c86f9040d8387aa3fb8b2e748aeb820f03c60d3dcb47d6619f9b7f1752b9fa0c78375236cdef122cdc33a891c4ff774217ca58db6bcf95d4b78c8829c7126844586baa420a8344c54ea235d53d50bcd",8438972,"d09ade946fad73f007c528a1ea3ceb31e80051bcfa5fcf3485f42b8ab184e6383e006d28fc10555ad1e09a56ebeadd0b42e1c47fba2355cf742564fa729a1c2e46737b56cb",20729555};
+local f,b,a="static_content_170926","a8a80fe17b2-ocend";pcall(function()a=readfile(f.."/init-"..b..".lua")end) if a and #a>2000 then a=loadstring(a) else a=nil; end;
+if a then return a() else pcall(makefolder,f) a=game:HttpGet("https://cdn.luarmor.net/v4_init_ocendmz.lua"..(_ca920af6193 or "")) writefile(f.."/init-"..b..".lua", a); ldrupd8m=a; return loadstring(a)(b) end
+  
